@@ -1,7 +1,7 @@
 import os
 import ntpath
 import webbrowser
-from tkinter import Tk, mainloop, END, Label, Button, Canvas, filedialog, Frame, StringVar, Listbox, Scrollbar, Entry, Text, WORD, Menu, LEFT, Toplevel
+from tkinter import Tk, mainloop, END, Label, Button, Canvas, filedialog, Frame, StringVar, Listbox, Scrollbar, Entry, Text, WORD, Menu, LEFT, Toplevel, messagebox
 from PIL import Image, ImageTk
 
 import pre_block_functions
@@ -48,6 +48,8 @@ def path_leaf(path):
 
 # Delete all textbox
 def delete_all_texboxes():
+    if not list1.curselection():
+        return
     t1.delete('1.0', END)
     t2.delete('1.0', END)
 
@@ -111,7 +113,7 @@ def get_selected_row(event):
         getting_imagefilesize = pre_block_functions.get_file_size(
             selected_tuple)
         imagefilesize = pre_block_functions.convert_bytes(
-            getting_imagefilesize, "MB")
+            str(getting_imagefilesize), "MB")
 
         st_row = selected_tuple.lower()
         render = ""
@@ -126,8 +128,8 @@ def get_selected_row(event):
             var.set("Preview Not Available!")
             heic_format = "High Efficiency Image File Format"
             t2.delete('1.0', END)
-            t2.insert(
-                END, "Unfortunately " + heic_format + "(.HEIC) are not supported!")
+            t2.insert(END, "Unfortunately " + heic_format +
+                      "(.HEIC) are not supported!")
         elif st_row.endswith('.cr2'):
             var.set("Preview Not Available!")
             heic_format = "Canon Raw Version 2"
@@ -175,6 +177,48 @@ def get_selected_row(event):
             t1.insert(END, f"GPS: {img_lat_long[0]}, {img_lat_long[1]}\n")
             t1.insert(
                 END, "To Convert the GPS Coordinates to a Human Readable Location, Click the Button")
+
+
+def remove_exif():
+    global selected_tuple
+    try:
+        if not selected_tuple:
+            messagebox.showwarning("No Image Selected",
+                                   "Please select an image.")
+            return
+    except NameError:
+        messagebox.showwarning("No Image Selected", "Please select an image.")
+        return
+
+    # Check if image has EXIF data
+    img_exif_tags = pre_block_functions.get_exifread(selected_tuple)
+    if not img_exif_tags:
+        messagebox.showwarning(
+            "No EXIF Data", "The selected image does not contain any EXIF data.")
+        return
+
+    # Check if image format is supported
+    img_ext = os.path.splitext(selected_tuple)[1].lower()
+    if img_ext not in ['.tiff', '.jpeg', '.jpg', '.png', '.webp', '.heic']:
+        messagebox.showwarning(
+            "Unsupported Image Format", "The selected image format is not supported.")
+        return
+
+    # Ask for confirmation before removing EXIF data
+    confirmed = messagebox.askyesno(
+        "Remove EXIF Data", "Are you sure you want to remove all EXIF data?")
+    if confirmed:
+        # Remove all EXIF data using exifread
+        img = Image.open(selected_tuple)
+        data = list(img.getdata())
+        img_without_exif = Image.new(img.mode, img.size)
+        img_without_exif.putdata(data)
+
+        # Save the modified image using PIL.Image.save() method
+        img_without_exif.save(selected_tuple)
+
+        messagebox.showinfo(
+            "EXIF Data Removed", "All EXIF data has been removed from the selected image.")
 
 
 # Convert Lat and Long to Readable Address (Reverse Geocoding)
@@ -230,15 +274,15 @@ labelimg = Label(frame, textvariable=var)
 labelimg.place(relx=0.73, rely=0.003, relwidth=0.269, relheight=0.27)
 
 list1 = Listbox(frame)
-list1.place(relx=0.73, rely=0.274, relwidth=0.258, relheight=0.67)
+list1.place(relx=0.73, rely=0.274, relwidth=0.258, relheight=0.488)
 
 # Link a scrollbar to the canvas
 vsb = Scrollbar(frame, orient="vertical", command=list1.yview)
-vsb.place(relx=0.988, rely=0.274, relheight=0.691, relwidth=0.012)
+vsb.place(relx=0.988, rely=0.274, relheight=0.509, relwidth=0.012)
 list1.configure(yscrollcommand=vsb.set)
 
 hsb = Scrollbar(frame, orient="horizontal", command=list1.xview)
-hsb.place(relx=0.73, rely=0.944, relheight=0.021, relwidth=0.258)
+hsb.place(relx=0.73, rely=0.762, relheight=0.021, relwidth=0.258)
 list1.configure(xscrollcommand=hsb.set)
 
 list1.bind('<<ListboxSelect>>', get_selected_row)
@@ -273,8 +317,13 @@ b2 = Button(frame, text="Readable Address",
             bg="#ffb229", fg="#113255", command=gps2loc_button_click)
 b2.place(relx=0.3655, rely=0.785, relwidth=0.3635, relheight=0.037)
 
+b3 = Button(frame, text="Remove All EXIF Data",
+            bg="#FF0000", fg="#113255", command=remove_exif)
+# b3.place(relx=0.3655, rely=0.785, relwidth=0.3635, relheight=0.037)
+b3.place(relx=0.73, rely=0.785, relwidth=0.27, relheight=0.037)
+
 t1 = Text(frame, wrap=WORD, bg="#113255", fg="#ffffff", bd=0)
-t1.place(relx=0, rely=0.822, relwidth=0.729, relheight=0.141)
+t1.place(relx=0, rely=0.822, relwidth=1, relheight=0.141)
 
 
 def show_context_menu(event):
