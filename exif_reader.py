@@ -113,7 +113,7 @@ def get_selected_row(event):
         getting_imagefilesize = pre_block_functions.get_file_size(
             selected_tuple)
         imagefilesize = pre_block_functions.convert_bytes(
-            str(getting_imagefilesize), "MB")
+            getting_imagefilesize, "MB")
 
         st_row = selected_tuple.lower()
         render = ""
