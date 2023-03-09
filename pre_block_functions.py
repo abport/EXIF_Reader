@@ -47,13 +47,14 @@ def get_file_size(file_path):
 
 
 def convert_bytes(size, unit=None):
-    units = {'bytes': 0, 'KB': 1, 'MB': 2, 'GB': 3}
-    size_in_bytes = int(size)
-    unit = unit if unit in units else 'bytes'
-    quotient, remainder = divmod(size_in_bytes, 1024)
-    if quotient == 0:
-        return f"{size_in_bytes} bytes"
-    return f"{quotient}.{remainder // 100:02d} {unit}"
+    if unit == "KB":
+        return f"{size / 1024:.3f} Kilobytes"
+    elif unit == "MB":
+        return f"{size / (1024 * 1024):.3f} Megabytes"
+    elif unit == "GB":
+        return f"{size / (1024 * 1024 * 1024):.3f} Gigabytes"
+    else:
+        return f"{size} bytes"
 
 
 def test_connection():
