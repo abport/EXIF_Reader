@@ -1,7 +1,10 @@
 
+
 # EXIF Reader
 
 Are you interested in learning more about the metadata stored in your digital photographs? Do you want to view the various camera settings used to capture an image, such as the aperture, shutter speed, ISO, and focal length? Look no further than EXIF Reader! This Python script provides an easy-to-use graphical user interface that allows you to select one or more image files, view their EXIF data, and preview the selected image(s).
+
+![enter image description here](https://github.com/abport/EXIF_Reader/blob/main/exif_reader_amin_beheshti.png)
 
 ## Introduction
 
