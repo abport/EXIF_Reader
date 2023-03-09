@@ -8,7 +8,7 @@ Are you interested in learning more about the metadata stored in your digital ph
 
 ## Introduction
 
-This tool can extract and display EXIF data from JPEG, PNG, HEIC, TIFF, GIF, BMP, WEBP, CR2, NEF, ORF, SR2, SRW, DNG, RW2, RAF, PEF, and ARW files. It allows you to preview the selected image and view its metadata tags. You can also search and locate GPS coordinates on Google Maps with the help of geopy.
+This tool is capable of extracting and displaying EXIF data from a variety of file types such as JPEG, PNG, HEIC, TIFF, GIF, BMP, WEBP, CR2, NEF, ORF, SR2, SRW, DNG, RW2, RAF, PEF, and ARW. It allows you to preview the selected image(s) and view their metadata tags. With the help of geopy, you can even search and locate GPS coordinates on Google Maps. Plus, I've got some exciting news: I've added a new feature to the app that lets you remove all the EXIF data from your photos with just one click!
 
 ## Installation
 
@@ -30,7 +30,7 @@ pip install tkinter Pillow exifread geopy GPSPhoto
 
 To run the program, simply run the `EXIF_Reader.py` file using Python.
 
-You can add files individually or add a whole folder by clicking on the respective buttons. Once files are added, you can select any of them to preview the image and display its metadata. You can search for GPS coordinates in the metadata and click the button to locate them on Google Maps.
+You can add files individually or add a whole folder by clicking on the respective buttons. Once files are added, you can select any of them to preview the image and display its metadata. You can search for GPS coordinates in the metadata and click the button to locate them on Google Maps. And now with our new feature, you can remove all the EXIF data from your photos with just one click!
 
 ## Contact
 
