@@ -1,6 +1,6 @@
 # 📸 EXIF Reader
 
-Hey there, photo enthusiasts and metadata mavens! 👋 Welcome to EXIF Reader, your new best friend for peeking behind the curtain of your digital images.
+Welcome to EXIF Reader, your new best friend for peeking behind the curtain of your digital images.
 
 ## 🚀 What's This All About?
 
