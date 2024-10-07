@@ -46,7 +46,7 @@ EXIF Reader supports a wide range of image formats, including:
 
 1. Clone this repo:
    ```
-   git clone https://github.com/yourusername/exif-reader.git
+   git clone https://github.com/abport/exif-reader.git
    ```
 2. Navigate to the project directory:
    ```
